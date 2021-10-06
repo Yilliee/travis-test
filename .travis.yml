@@ -2,7 +2,7 @@ language: bash
 
 before_script:
   - sudo apt-get update
-  - sudo apt-get install repo
+  - sudo apt-get install repo python2 python-is-python2
   - git config --global user.name "Yillié"
   - git config --global user.email "yilliee@protonmail.com"
 
@@ -10,4 +10,5 @@ script:
   - mkdir -p ~/rom && cd ~/rom
   - repo init -u https://android.googlesource.com/platform/manifest -b android-12.0.0_r2
   - repo sync --force-sync -j $(nproc --all)
+  - . build/envsetup.sh
   - brunch generic_arm64-user
