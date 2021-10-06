@@ -1,0 +1,15 @@
+language: bash
+
+before_script:
+	- export REPO=$(mktemp /tmp/repo.XXXXXXXXX)
+	- curl -o ${REPO} https://storage.googleapis.com/git-repo-downloads/repo
+	- gpg --recv-key 8BB9AD793E8E6153AF0F9A4416530D5E920F5C65
+	- curl -s https://storage.googleapis.com/git-repo-downloads/repo.asc | gpg --verify - ${REPO} && install -m 755 ${REPO} ~/bin/repo
+	- git config --global user.name "Yillié"
+	- git config --global user.email "yilliee@protonmail.com"
+
+script:
+	- mkdir -p ~/rom && cd ~/rom
+	- repo init -u https://android.googlesource.com/platform/manifest -b android-12.0.0_r2
+	- repo sync --force-sync -j $(nproc --all)
+	- brunch generic_arm64-user
